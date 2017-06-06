@@ -42,7 +42,7 @@ Postal codes with wrong values are neglected and remain unchanged due to lack of
 
 The main function I used for improving street names:
 
-```
+``` python
 def update_name(name, mapping):
     name_list = name.split(' ')
     for i in range(len(name_list)):
@@ -69,7 +69,7 @@ This updates all problematic address strings, for example,
 
 The main function I used for making the format of postal codes consistent:
 
-```
+``` python
 for tag in root.findall('./node/tag'):
     if is_zip_name(tag):
         #remove all non-digit characters first
@@ -99,17 +99,18 @@ After writing the orignial map osm data into csv files, I used sqlite to convert
 
 #### Size of the file
 
+``` sql
 denver.osm ......... 890 MB   
-nodes.csv ............. 350 MB    
-node_tags.csv .......  13 MB    
-ways.csv ..................  28 MB    
-way_nodes.csv ... 116 MB    
-way_tags.csv .........  65 MB    
-osm.db ................. 550 MB    
-
+nodes.csv .......... 350 MB    
+node_tags.csv ......  13 MB    
+ways.csv ...........  28 MB    
+way_nodes.csv ...... 116 MB    
+way_tags.csv .......  65 MB    
+osm.db ............. 550 MB    
+```
 #### Number of unique users
 
-```
+``` sql
 SELECT COUNT(DISTINCT(e.uid))
 FROM (SELECT uid FROM nodes UNION SELECT uid FROM ways) AS e;
 
@@ -118,13 +119,13 @@ FROM (SELECT uid FROM nodes UNION SELECT uid FROM ways) AS e;
 
 #### Number of nodes and ways
 
-```
+``` sql
 SELECT COUNT(*)
 FROM nodes;
 ```
 524287
 
-```
+``` sql
 SELECT COUNT(*)
 FROM ways;
 ```
@@ -134,7 +135,7 @@ FROM ways;
 
 - Cafes
 
-```
+``` sql
 SELECT COUNT(*)
 FROM nodes_tags
 WHERE key = 'amenity' and value = 'cafe';
@@ -145,7 +146,7 @@ WHERE key = 'amenity' and value = 'cafe';
 
 - Shops
 
-```
+``` sql
 SELECT COUNT(*)
 FROM nodes_tags
 WHERE key = 'shop';
@@ -159,7 +160,7 @@ WHERE key = 'shop';
 
 - Ten most contributing users
 
-```
+``` sql
 SELECT e.user, COUNT(*) as num
 FROM (SELECT user FROM nodes UNION ALL SELECT user FROM ways) AS e
 GROUP BY e.user
@@ -167,24 +168,26 @@ ORDER BY num DESC
 LIMIT 10;
 
 ```
-woodpeck_fixbot ......... 344837  
-"Your Village Maps" .... 101328  
-chachafish ......................... 90597  
-GPS_dr ................................ 64810  
-jjyach ................................... 41332  
-DavidJDBA ......................... 23340  
-Stevestr ............................... 19800  
-balrog-kun ........................ 19126  
-russdeffner ........................ 14886  
-CornCO ............................... 12046
 
+``` sql
+woodpeck_fixbot ......... 344837  
+"Your Village Maps" ..... 101328  
+chachafish ............... 90597  
+GPS_dr ................... 64810  
+jjyach ................... 41332  
+DavidJDBA ................ 23340  
+Stevestr ................. 19800  
+balrog-kun ............... 19126  
+russdeffner .............. 14886  
+CornCO ................... 12046
+```
 It seems that the first user has way much more contribution to the database than other users. The name itself looks like a robot. By checking online, I found this account is used by Frederik Ramm for automated edits. The second user "Your Village Maps" which looks like an abnormal name is actually a real mapper.
 
 
 
 - Top ten categories of shops
 
-```
+``` sql
 SELECT COUNT(*),value
 FROM nodes_tags
 WHERE key = 'shop'
@@ -194,18 +197,18 @@ LIMIT 10;
 
 ```
 
-
+``` sql
 Convenience .... 417  
-Unspecified ...... 359  
-Car_repair .........  272  
-Hairdresser .......  270  
-Alcohol ..............  219   
-Clothes ..............  217   
-Supermarket ...  193   
-Beauty ...............  143  
-Doityourself .... 138   
-Car ...................... 136   
-
+Unspecified .... 359  
+Car_repair ..... 272  
+Hairdresser .... 270  
+Alcohol ........ 219   
+Clothes ........ 217   
+Supermarket .... 193   
+Beauty ......... 143  
+Doityourself ... 138   
+Car ............ 136   
+```
 Many node tags with the key "shop" have the value "yes" instead of an actual name, which means the shops are unspecified.
 
 The category "doityourself" includes a variety of shops or services, such as parking spot, self storage, Auto Zone, Home Depot, Lowes, etc.
@@ -235,32 +238,32 @@ Here we can have an idea of the tourism resources of Colorado by looking into th
 
 
 
-```
+``` sql
 SELECT DISTINCT(value)
 FROM nodes_tags
 WHERE key = 'tourism';
 
 ```
 
-
-Picnic_site ............... 438  
-Camp_site  ............... 431  
-Information ............ 261  
-Artwork .................... 123  
-Viewpoint .................. 92  
-Hotel ........................... 88  
-Motel .......................... 57  
-Museum .................... 37  
-Gallery ........................ 28  
-Attraction .................. 22  
-Caravan_site ............. 17  
-Guest_house .............. 9  
-Hostel ........................... 4  
-Alpine_hut ................... 3  
-Unspecified ................ 2  
-Theme_park ................ 1  
+``` sql
+Picnic_site .......... 438  
+Camp_site  ........... 431  
+Information .......... 261  
+Artwork .............. 123  
+Viewpoint ............. 92  
+Hotel ................. 88  
+Motel ................. 57  
+Museum ................ 37  
+Gallery ............... 28  
+Attraction ............ 22  
+Caravan_site .......... 17  
+Guest_house ............ 9  
+Hostel ................. 4  
+Alpine_hut ............. 3  
+Unspecified ............ 2  
+Theme_park ............. 1  
 Trail_riding_station ... 1  
-
+```
 
 In more in-depth and comprehensive analysis, we can compare the tourism resources of different cities in the state or compare Colorado with other states and thus know the advantages and disadvantages of Colorado cities in tourism.
 

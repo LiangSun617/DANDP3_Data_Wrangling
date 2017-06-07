@@ -227,11 +227,30 @@ From the data auditing and cleaning process, I encountered a few problems with t
 
 If the OpenStreetMap has not done the following suggestion yet, I think it would help if some guidelines or manuals can be provided for mappers to follow when they are entering and coding addresses, postal codes, and categorizing shops or other facilities. By doing so, there would be fewer confusions and errors in the data. For example, the addresses will become easier to read, search and extract for users. More informative categorizations of amenities and facilities will help users to find the closest and the most convenient target in the map.
 
-However, we can only encourage rather than demand all mappers to follow the guidelines. One measure we can take is to start promoting guidelines among a focus group of top mappers by strengthening the communication with them, since the contributions are highly skewed and a small number of mappers contribute the majority of entries in the data. Once the majority of entries are presented in a consistent format, other mappers are more likely to follow.
+However, some problems can be anticipated in implementing this improvement:
 
-Second, we can introduce gamification system and give users virtual rank or title as incentives based on the number and quality of their contributions. The quality of their work can be measured by how well they follow the guidelines.
+- There are thousands of users who contribute to the map data, and more new mappers will join the mapping in future. It will be a challenge to have the guidelines read by everyone.
 
-Third, we can also sponsor and organize annual workshops or meetings to award top contributors and promote OSM guidelines among mappers.
+- Mappers have their own preferences for mapping and lack motivation to follow the guidelines. We can only encourage rather than demand them to follow.
+
+- Mappers have inadequate communication with each other and do not have a consensus of the construct and the format of the data.
+
+- Errors are unavoidable because human's work cannot be always perfect.
+
+
+A few measures can be taken to deal with the problems stated above:
+
+- Start promoting guidelines among a focus group of top mappers by strengthening the communication with them, since the contributions are highly skewed and a small number of mappers contribute the majority of entries in the data. Once the majority of entries are presented in a consistent format, other mappers are more likely to follow.
+
+- Introduce gamification system and give users virtual rank or title as incentives based on the number and quality of their contributions. The quality of their work can be measured by how well they follow the guidelines.
+
+- Sponsor and organize annual workshops or meetings to award top contributors, promote OSM guidelines and enhance communication among mappers.
+
+- Encourage mappers to check and review other people's contribution based on the guidelines, and their work is taken into account by the gamification system.
+
+
+
+
 
 
 

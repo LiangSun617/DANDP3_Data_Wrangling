@@ -223,9 +223,15 @@ Interestingly, there are also 4 "marijuana" shops in the data because recreation
 
 #### Guidelines for mappers
 
-From the data auditing and cleaning process, I encountered a few problems with the formatting of addresses and postal codes; however, there are many other problems with the information collected by the database that are not discussed here. For example, the categorizations of nodes look rather messy.
+From the data auditing and cleaning process, I encountered a few problems with the formatting of addresses and postal codes as discussed above. In addition, there are some other undiscussed problems with the information collected by the database. For example, the categorizations of nodes need to be improved since information for many nodes is incomplete and a large number of shops are not specified.
 
-If the OpenStreetMap has not done the following suggestion yet, I think it would help if some guidelines or manuals can be provided for mappers to follow when they are entering and coding addresses, postal codes, and categorizing shops or other facilities. By doing so, there would be fewer confusions and erros in the data.
+If the OpenStreetMap has not done the following suggestion yet, I think it would help if some guidelines or manuals can be provided for mappers to follow when they are entering and coding addresses, postal codes, and categorizing shops or other facilities. By doing so, there would be fewer confusions and errors in the data. For example, the addresses will become easier to read, search and extract for users. More informative categorizations of amenities and facilities will help users to find the closest and the most convenient target in the map.
+
+However, we can only encourage rather than demand all mappers to follow the guidelines. One measure we can take is to start promoting guidelines among a focus group of top mappers by strengthening the communication with them, since the contributions are highly skewed and a small number of mappers contribute the majority of entries in the data. Once the majority of entries are presented in a consistent format, other mappers are more likely to follow.
+
+Second, we can introduce gamification system and give users virtual rank or title as incentives based on the number and quality of their contributions. The quality of their work can be measured by how well they follow the guidelines.
+
+Third, we can also sponsor and organize annual workshops or meetings to award top contributors and promote OSM guidelines among mappers.
 
 
 

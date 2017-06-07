@@ -101,9 +101,24 @@ def shape_element(element, node_attr_fields=NODE_FIELDS, way_attr_fields=WAY_FIE
     tags = []   
 
     if element.tag == 'node':
+        """ updating tags first """
+        for tag in element.findall('./'):
+            # Improving street names  
+            if is_street_name(tag):
+                tag.attrib['v'] = update_name(tag.attrib['v'],mapping)
+            # Updating postal codes
+            if is_zip_name(tag):
+                # remove all non-digit characters first
+                tag.attrib['v'] = re.sub('[^0-9]','', tag.attrib['v'])
+                # the postal code should be either 80XXX or 80XXX-XXXX
+                if len(tag.attrib['v'])>5:
+                    tag.attrib['v'] = tag.attrib['v'][0:5]+'-'+tag.attrib['v'][5:]
+                if tag.attrib['v'][0:2]=='90': # one value was found to be 90XXX
+                    tag.attrib['v'] = '80'+tag.attrib['v'][2:5] 
+        """ extract the information from different types of tags and write into a dictionary """
         for key in NODE_FIELDS:
             node_attribs[key] = element.attrib[key]
-        for tag in element.findall('./'):
+        for tag in element.findall('./'):    
             tag_value=tag.attrib['k']
             if PROBLEMCHARS.search(tag_value,) == None:    
             #has no problematic character
@@ -122,6 +137,18 @@ def shape_element(element, node_attr_fields=NODE_FIELDS, way_attr_fields=WAY_FIE
         return {'node': node_attribs, 'node_tags': tags}
         
     elif element.tag == 'way':
+        for tag in element.findall('./'):
+        # improving street names    
+            if is_street_name(tag):
+                tag.attrib['v'] = update_name(tag.attrib['v'],mapping)
+        # Updating postal codes
+            if is_zip_name(tag): 
+                tag.attrib['v'] = re.sub('[^0-9]','', tag.attrib['v'])
+                if len(tag.attrib['v'])>5:
+                    tag.attrib['v'] = tag.attrib['v'][0:5]+'-'+tag.attrib['v'][5:]
+                if tag.attrib['v'][0:2]=='90':
+                    tag.attrib['v'] = '80'+tag.attrib['v'][2:5]   
+
         for key in WAY_FIELDS:
             way_attribs[key] = element.attrib[key]
         position = 0
@@ -355,7 +382,6 @@ sqlite> .import ways_nodes.csv ways_nodes
 ### Analyzing using SQL ###
 
 # Number of unique users
-
 
 SELECT COUNT(DISTINCT(e.uid)) 
 FROM (SELECT uid FROM nodes UNION SELECT uid FROM ways) AS e;

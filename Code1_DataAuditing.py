@@ -20,7 +20,7 @@ def get_element(osm_file, tags=('node', 'way', 'relation')):
 with open(SAMPLE_FILE, 'wb') as output:
     output.write('<?xml version="1.0" encoding="UTF-8"?>\n')
     output.write('<osm>\n  ')
-
+    # write every k-th element into the sample file
     for i, element in enumerate(get_element(OSM_FILE)):
         if i % k == 0:
             output.write(ET.tostring(element, encoding='utf-8'))
@@ -44,9 +44,8 @@ expected = ["Street", "Avenue", "Boulevard", "Drive", "Court", "Place", "Square"
             "Bypass","Broadway","Way","Plaza","Place","Point","State Highway",
             "State Route"]
 
-# UPDATE THIS VARIABLE
-mapping = { 
-            "st.": "Street",
+# UPDATE THIS VARIABLE: problematic street names and their correct forms
+mapping = { "st.": "Street",
             "st": "Street",
             "strret": "Street",
             "sreet": "Street",
@@ -89,7 +88,7 @@ def audit_street_type(street_types, street_name):
         street_type = m.group() #return all the match
         if street_type not in expected: 
             street_types[street_type].add(street_name) 
-            #a dictionary with these unusual street_types and their names
+            # a dictionary with these unusual street_types and their names
 
 
 def is_street_name(elem):
@@ -97,6 +96,7 @@ def is_street_name(elem):
     #check if it is true that the element has addr:street value
 
 def audit(osmfile):
+    """ get all the street types that are not in the expected list """
     osm_file = open(osmfile, "r")
     street_types = defaultdict(set)
     for event, elem in ET.iterparse(osm_file, events=("start",)):
@@ -109,10 +109,10 @@ def audit(osmfile):
 
 
 def update_name(name, mapping):
-
-    # YOUR CODE HERE
+    """ change the incorrect street types into there correct forms """
     name_list = name.split(' ')
     for i in range(len(name_list)):
+        # do not change "Unit E" into "Unit East"
         if name_list[i].lower() in mapping.keys() and "Unit E" not in name:
             name_list[i] = mapping[name_list[i].lower()]
         if name_list[i].lower() in mapping.keys() and "Unit E" in name:
@@ -122,24 +122,13 @@ def update_name(name, mapping):
     
     return new_name
 
+# check the list of problematic address names
 audit(SAMPLE_FILE)
-
-
-
-# Improving street names
-tree = ET.parse(SAMPLE_FILE)
-root = tree.getroot() 
-for tag in root.findall('./node/tag'):
-    tag.attrib['v'] = update_name(tag.attrib['v'],mapping)
-for tag in root.findall('./way/tag'):
-    tag.attrib['v'] = update_name(tag.attrib['v'],mapping)
-tree.write('output.xml')  
-
 
 
 # Audit zip code
 def audit_zip_value(zip_value):
-    if zip_value[0:2]!= '80':  #denver area zip codes starts with 80
+    if zip_value[0:2]!= '80':  # Denver area zip codes starts with 80
         return zip_value
 
 
@@ -147,37 +136,18 @@ def is_zip_name(elem):
     return (elem.attrib['k'] == "addr:postcode") 
 
 def audit_zip(osmfile):
+    """ get a list of problematic postal codes """
     osm_file = open(osmfile, "r")
     zip_values = set()
     for event, elem in ET.iterparse(osm_file, events=("start",)):
         if elem.tag == "node" or elem.tag == "way":
             for tag in elem.iter("tag"):
-                if is_zip_name(tag):
+                if is_zip_name(tag):  
                     zip_values.add(audit_zip_value(tag.attrib['v']))
     osm_file.close()
     return zip_values
 
-audit_zip('output.xml') 
+# check the list of problematic postal codes
+audit_zip(SAMPLE_FILE) 
 
-
-
-# Make the format of zip code consistent 
-for tag in root.findall('./node/tag'):
-    if is_zip_name(tag):
-        #remove all non-digit characters first
-        tag.attrib['v'] = re.sub('[^0-9]','', tag.attrib['v'])
-        if len(tag.attrib['v'])>5:
-            tag.attrib['v'] = tag.attrib['v'][0:5]+'-'+tag.attrib['v'][5:]
-        if tag.attrib['v'][0:2]=='90':
-            tag.attrib['v'] = '80'+tag.attrib['v'][2:5] 
-                        
-for tag in root.findall('./way/tag'):
-    if is_zip_name(tag): 
-        tag.attrib['v'] = re.sub('[^0-9]','', tag.attrib['v'])
-        if len(tag.attrib['v'])>5:
-            tag.attrib['v'] = tag.attrib['v'][0:5]+'-'+tag.attrib['v'][5:]
-        if tag.attrib['v'][0:2]=='90':
-            tag.attrib['v'] = '80'+tag.attrib['v'][2:5]   
-
-tree.write('output2.xml')
-
+ 

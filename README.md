@@ -295,7 +295,7 @@ In more in-depth and comprehensive analysis, we can compare the tourism resource
 
 Source:  
 https://www.openstreetmap.org/user/woodpeck_fixbot  
-https://www.openstreetmap.org/user/Your%20Village%20Maps
+https://www.openstreetmap.org/user/Your%20Village%20Maps  
 http://www.cobizmag.com/Articles/The-economist-Whats-the-most-important-industry-in-Colorado/  
 http://www.today.com/health/healthiest-states-report-ranks-well-being-u-s-regions-t107621
 https://gist.github.com/carlward/54ec1c91b62a5f911c42#file-sample_project-md
